@@ -16,9 +16,23 @@ namespace CognitiveService.Core
     public class ComputerVisionService
     {
         private const int numberOfCharsInOperationId = 36;
-
-        public async Task<string> ExtractRemoteTextAsync(string imageUrl, TextRecognitionMode mode)
+        public enum OcrMode
         {
+            Print,
+            HandWriting
+        }
+
+        /// <summary>
+        /// URL先の画像からテキストをOCRして抽出します。
+        /// </summary>
+        /// <returns>OCRした結果のテキストを返します。</returns>
+        /// <param name="imageUrl">Image URL.</param>
+        /// <param name="mode">Mode.</param>
+        public async Task<string> ExtractRemoteTextAsync(string imageUrl, OcrMode mode)
+        {
+            // Mode変換
+            var ocrMode = GetOcrMode(mode);
+
             // ComputerVisionClient の準備
             var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
@@ -30,13 +44,22 @@ namespace CognitiveService.Core
                 return $"Invalid remoteImageUrl: {imageUrl}";
 
             // API でアクセスするための情報を取得
-            var textHeaders = await computerVisionClient.RecognizeTextAsync(imageUrl, mode);
+            var textHeaders = await computerVisionClient.RecognizeTextAsync(imageUrl, ocrMode);
 
             return await GetTextAsync(computerVisionClient, textHeaders.OperationLocation);
         }
 
-        public async Task<string> ExtractLocalTextAsync(string imagePath, TextRecognitionMode mode)
+        /// <summary>
+        /// ローカルの画像のファイルパスからテキストをOCRして抽出します。
+        /// </summary>
+        /// <returns>OCRした結果のテキストを返します。</returns>
+        /// <param name="imagePath">Image path.</param>
+        /// <param name="mode">Mode.</param>
+        public async Task<string> ExtractLocalTextAsync(string imagePath, OcrMode mode)
         {
+            // Mode変換
+            var ocrMode = GetOcrMode(mode);
+
             // ComputerVisionClient の準備
             var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
@@ -50,14 +73,23 @@ namespace CognitiveService.Core
             using (var imageStream = File.OpenRead(imagePath))
             {
                 // API でアクセスするための情報を取得
-                var textHeaders = await computerVisionClient.RecognizeTextInStreamAsync(imageStream, mode);
+                var textHeaders = await computerVisionClient.RecognizeTextInStreamAsync(imageStream, ocrMode);
 
                 return await GetTextAsync(computerVisionClient, textHeaders.OperationLocation);
             }
         }
 
-        public async Task<string> ExtractLocalTextAsync(Stream imageStream, TextRecognitionMode mode)
+        /// <summary>
+        /// ローカルの画像のストリームからテキストをOCRして抽出します。
+        /// </summary>
+        /// <returns>OCRした結果のテキストを返します。</returns>
+        /// <param name="imageStream">Image stream.</param>
+        /// <param name="mode">Mode.</param>
+        public async Task<string> ExtractLocalTextAsync(Stream imageStream, OcrMode mode)
         {
+            // Mode変換
+            var ocrMode = GetOcrMode(mode);
+
             // ComputerVisionClient の準備
             var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
@@ -65,7 +97,7 @@ namespace CognitiveService.Core
                 Endpoint = Secrets.ComputerVisionEndpoint
             };
 
-            var textHeaders = await computerVisionClient.RecognizeTextInStreamAsync(imageStream, mode);
+            var textHeaders = await computerVisionClient.RecognizeTextInStreamAsync(imageStream, ocrMode);
 
             return await GetTextAsync(computerVisionClient, textHeaders.OperationLocation);
         }
@@ -92,7 +124,7 @@ namespace CognitiveService.Core
                 }
 
                 if (result.Status == TextOperationStatusCodes.Failed)
-                    return $"Can not recognized";
+                    return $"Can not recognized.";
 
                 // よしなに処理
                 var lines = result.RecognitionResult.Lines;
@@ -113,7 +145,12 @@ namespace CognitiveService.Core
                 Debug.WriteLine($"Unknown error: {e.Message}");
             }
 
-            return $"Can not recognized";
+            return $"Can not recognized.";
+        }
+
+        private TextRecognitionMode GetOcrMode(OcrMode ocrMode)
+        {
+            return ocrMode == OcrMode.Print ? TextRecognitionMode.Printed : TextRecognitionMode.Handwritten;
         }
     }
 }
