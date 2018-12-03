@@ -8,9 +8,9 @@ using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
-using CognitiveService.Core;
+using CognitiveServices.Core;
 
-namespace XFCognitiveService
+namespace XFCognitiveServices
 {
     public partial class MainPage : ContentPage
     {
@@ -38,7 +38,8 @@ namespace XFCognitiveService
                 file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
                 {
                     Directory = "Sample",
-                    Name = "test.jpg"
+                    Name = "test.jpg",
+                    PhotoSize = PhotoSize.Medium
                 });
 
                 image.Source = ImageSource.FromFile(file.Path);
@@ -59,13 +60,11 @@ namespace XFCognitiveService
             if (faces == null)
                 await DisplayAlert("Error", "Can not detect", "OK");
 
-            Console.WriteLine($"Detected: {faces.Count} Person.");
-
             var sb = new StringBuilder();
             sb.Append($"Detected: {faces.Count}\n\n");
             foreach (var face in faces)
             {
-                sb.Append($"Emotion Rsult: \nAge:{face.Age}\nGender:{face.Gender}\nHappiness:{face.Happiness}%\n\n");
+                sb.Append($"Emotion Rsult:\nAge:{face.Age}\nGender:{face.Gender}\nHappiness:{face.Happiness}%\n");
             }
 
             await DisplayAlert("Face", sb.ToString(), "OK");
@@ -74,11 +73,16 @@ namespace XFCognitiveService
         async void OcrButton_Clicked(object sender, EventArgs e)
         {
             var client = new ComputerVisionService();
+            var regions = await client.ExtractLocalTextAsync(file.Path);
 
-            var mode = ocrSwitch.IsToggled ? ComputerVisionService.OcrMode.HandWriting : ComputerVisionService.OcrMode.Print;
-            var text = await client.ExtractLocalTextAsync(file.Path, mode);
+            var sb = new StringBuilder();
+            sb.Append($"Extracted Regions: {regions.Count}\n\n");
+            foreach (var region in regions)
+            {
+                sb.Append($"OCR Result:\n{region}\n");
+            }
 
-            await DisplayAlert("OCR", text, "OK");
+            await DisplayAlert("OCR", sb.ToString(), "OK");
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace XFCognitiveService.iOS
+namespace XFCognitiveServices.iOS
 {
     public class Application
     {

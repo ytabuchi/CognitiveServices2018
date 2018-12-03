@@ -8,7 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Plugin.CurrentActivity;
 
-namespace XFCognitiveService.Droid
+namespace XFCognitiveServices.Droid
 {
     [Activity(Label = "XFCognitiveService", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity

@@ -3,7 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-namespace XFCognitiveService
+namespace XFCognitiveServices
 {
     public partial class App : Application
     {
