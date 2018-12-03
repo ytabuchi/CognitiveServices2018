@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CognitiveService.Core\CognitiveService.Core.csproj" />
+    <ProjectReference Include="..\CognitiveServices.Core\CognitiveServices.Core.csproj" />
   </ItemGroup>
 </Project>
