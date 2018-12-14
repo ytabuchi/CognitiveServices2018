@@ -7,12 +7,14 @@
     <ScrollView>
         <StackLayout Padding="10">
             <Button Text="Take a picture"
-                    Clicked="PictureButton_Clicked" />
+                    Clicked="TakePictureButton_Clicked" />
             <Image x:Name="image"
                    Aspect="AspectFill"
                    />
             <Button Text="Detect Face"
                     Clicked="FaceButton_Clicked" />
+            <Button Text="Analyze Image"
+                    Clicked="AnalyzeButton_Clicked" />
             <Button Text="OCR Text"
                     Clicked="OcrButton_Clicked" />
         </StackLayout>

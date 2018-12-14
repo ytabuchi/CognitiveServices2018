@@ -14,6 +14,14 @@ namespace CognitiveServices.Core
     /// <remarks>https://docs.microsoft.com/ja-jp/azure/cognitive-services/face/quickstarts/csharp-detect-sdk</remarks>
     public class FaceService
     {
+        // 取得する属性を指定
+        private static readonly FaceAttributeType[] faceAttributes =
+        {
+            FaceAttributeType.Age,
+            FaceAttributeType.Gender,
+            FaceAttributeType.Emotion
+        };
+
         /// <summary>
         /// 画像の URL から顔を認識して年齢、性別、幸福度を得ます。
         /// </summary>
@@ -25,31 +33,30 @@ namespace CognitiveServices.Core
                 return new List<FaceEmotion>();
 
             // FaceClient の準備
-            var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.FaceEndpoint,
-            };
-            // 取得する属性を指定
-            FaceAttributeType[] faceAttributes = { FaceAttributeType.Age, FaceAttributeType.Gender, FaceAttributeType.Emotion };
-
-            try
+            })
             {
-                // API 呼び出し、結果取得
-                var faces = await faceClient.Face.DetectWithUrlAsync(imageUrl, true, false, faceAttributes);
+                try
+                {
+                    // API 呼び出し、結果取得
+                    var faces = await faceClient.Face.DetectWithUrlAsync(imageUrl, true, false, faceAttributes);
 
-                return GetFaceEmotions(faces);
-            }
-            catch (APIErrorException e)
-            {
-                Debug.WriteLine($"imageUrl: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Unknown error: {e.Message}");
-            }
+                    return GetFaceEmotions(faces);
+                }
+                catch (APIErrorException e)
+                {
+                    Debug.WriteLine($"imageUrl: {e.Message}");
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Unknown error: {e.Message}");
+                }
 
-            return null;
+                return null;
+            }
         }
 
         /// <summary>
@@ -59,35 +66,37 @@ namespace CognitiveServices.Core
         /// <param name="imagePath">Image path.</param>
         public async Task<List<FaceEmotion>> GetLocalEmotionAsync(string imagePath)
         {
+            if (!File.Exists(imagePath))
+                return null;
+
             // FaceClient の準備
-            var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.FaceEndpoint,
-            };
-            // 取得する属性を指定
-            FaceAttributeType[] faceAttributes = { FaceAttributeType.Age, FaceAttributeType.Gender, FaceAttributeType.Emotion };
-
-            try
+            })
             {
-                using (var imageStream = File.OpenRead(imagePath))
+                try
                 {
-                    // API 呼び出し、結果取得
-                    var faces = await faceClient.Face.DetectWithStreamAsync(imageStream, true, false, faceAttributes);
+                    using (var imageStream = File.OpenRead(imagePath))
+                    {
+                        // API 呼び出し、結果取得
+                        var faces = await faceClient.Face.DetectWithStreamAsync(imageStream, true, false, faceAttributes);
 
-                    return GetFaceEmotions(faces);
+                        return GetFaceEmotions(faces);
+                    }
                 }
-            }
-            catch (APIErrorException e)
-            {
-                Debug.WriteLine($"imageUrl: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Unknown error: {e.Message}");
-            }
+                catch (APIErrorException e)
+                {
+                    Debug.WriteLine($"imageUrl: {e.Message}");
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Unknown error: {e.Message}");
+                }
 
-            return null;
+                return null;
+            }
         }
 
         /// <summary>
@@ -98,31 +107,30 @@ namespace CognitiveServices.Core
         public async Task<List<FaceEmotion>> GetLocalEmotionAsync(Stream imageStream)
         {
             // FaceClient の準備
-            var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.FaceEndpoint,
-            };
-            // 取得する属性を指定
-            FaceAttributeType[] faceAttributes = { FaceAttributeType.Age, FaceAttributeType.Gender, FaceAttributeType.Emotion };
-
-            try
+            })
             {
-                // API 呼び出し、結果取得
-                var faces = await faceClient.Face.DetectWithStreamAsync(imageStream, true, false, faceAttributes);
+                try
+                {
+                    // API 呼び出し、結果取得
+                    var faces = await faceClient.Face.DetectWithStreamAsync(imageStream, true, false, faceAttributes);
 
-                return GetFaceEmotions(faces);
-            }
-            catch (APIErrorException e)
-            {
-                Debug.WriteLine($"imageUrl: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Unknown error: {e.Message}");
-            }
+                    return GetFaceEmotions(faces);
+                }
+                catch (APIErrorException e)
+                {
+                    Debug.WriteLine($"imageUrl: {e.Message}");
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Unknown error: {e.Message}");
+                }
 
-            return null;
+                return null;
+            }
         }
 
         private List<FaceEmotion> GetFaceEmotions(IList<DetectedFace> faces)
