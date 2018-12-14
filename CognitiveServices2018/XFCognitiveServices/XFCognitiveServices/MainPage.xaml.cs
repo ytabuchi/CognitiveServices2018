@@ -21,7 +21,7 @@ namespace XFCognitiveServices
             InitializeComponent();
         }
 
-        async void PictureButton_Clicked(object sender, EventArgs e)
+        async void TakePictureButton_Clicked(object sender, EventArgs e)
         {
             var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
             var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
@@ -70,9 +70,17 @@ namespace XFCognitiveServices
             await DisplayAlert("Face", sb.ToString(), "OK");
         }
 
+        async void AnalyzeButton_Clicked(object sender, EventArgs e)
+        {
+            var client = new ImageAnalysisService();
+            var caption = await client.AnalyzeLocalImageAsync(file.Path);
+
+            await DisplayAlert("Image Analysis", caption, "OK");
+        }
+
         async void OcrButton_Clicked(object sender, EventArgs e)
         {
-            var client = new ComputerVisionService();
+            var client = new OcrService();
             var regions = await client.ExtractLocalTextAsync(file.Path);
 
             var sb = new StringBuilder();
