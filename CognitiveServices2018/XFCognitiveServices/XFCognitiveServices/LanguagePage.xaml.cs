@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace XFCognitiveServices
 {
-    public partial class SpeechPage : ContentPage
+    public partial class LanguagePage : ContentPage
     {
-        public SpeechPage()
+        public LanguagePage()
         {
             InitializeComponent();
         }
