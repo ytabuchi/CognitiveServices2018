@@ -12,12 +12,12 @@ using CognitiveServices.Core;
 
 namespace XFCognitiveServices
 {
-    public partial class MainPage : ContentPage
+    public partial class VisionPage : ContentPage
     {
         MediaFile file;
         bool isPermissionGranted;
 
-        public MainPage()
+        public VisionPage()
         {
             InitializeComponent();
         }
