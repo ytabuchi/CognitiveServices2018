@@ -3,19 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:XFCognitiveServices"
              x:Class="XFCognitiveServices.MainPage"
-             Title="MainPage">
+             Title="Cognitive Services Demo App">
     <ScrollView>
         <StackLayout Padding="10">
-            <Button Text="Take a picture"
-                    Clicked="TakePictureButton_Clicked" />
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5">
+                <Button Text="Take a picture"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="TakePictureButton_Clicked" />
+                <Button Text="Open from local"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OpenPicureButton_Clicked" />
+            </StackLayout>
             <Image x:Name="image"
                    Aspect="AspectFill"
                    />
-            <Button Text="Detect Face"
+            <Button x:Name="FaceButtno"
+                    Text="Detect Face"
                     Clicked="FaceButton_Clicked" />
-            <Button Text="Analyze Image"
+            <Button x:Name="AnalyzeButton"
+                    Text="Analyze Image"
                     Clicked="AnalyzeButton_Clicked" />
-            <Button Text="OCR Text"
+            <Button x:Name="OcrButton"
+                    Text="OCR Text"
                     Clicked="OcrButton_Clicked" />
         </StackLayout>
     </ScrollView>

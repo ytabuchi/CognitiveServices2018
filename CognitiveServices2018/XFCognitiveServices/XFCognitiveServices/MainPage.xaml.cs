@@ -15,13 +15,30 @@ namespace XFCognitiveServices
     public partial class MainPage : ContentPage
     {
         MediaFile file;
+        bool isPermissionGranted;
 
         public MainPage()
         {
             InitializeComponent();
         }
 
-        async void TakePictureButton_Clicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (CheckFeaturesAvalable())
+                isPermissionGranted = await CheckPermissionGranted();
+            else
+                await DisplayAlert("Features", "This phone does not support this app.", "OK");
+        }
+
+        private bool CheckFeaturesAvalable()
+        {
+            return CrossMedia.Current.IsTakePhotoSupported &&
+                CrossMedia.Current.IsPickPhotoSupported;
+        }
+
+        private async Task<bool> CheckPermissionGranted()
         {
             var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
             var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
@@ -34,6 +51,14 @@ namespace XFCognitiveServices
             }
 
             if (cameraStatus == PermissionStatus.Granted && storageStatus == PermissionStatus.Granted)
+                return true;
+            else
+                return false;
+        }
+
+        private async void TakePictureButton_Clicked(object sender, EventArgs e)
+        {
+            if (isPermissionGranted)
             {
                 file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
                 {
@@ -52,8 +77,26 @@ namespace XFCognitiveServices
             }
         }
 
-        async void FaceButton_Clicked(object sender, EventArgs e)
+        private async void OpenPicureButton_Clicked(object sender, System.EventArgs e)
         {
+            if (isPermissionGranted)
+            {
+                file = await CrossMedia.Current.PickPhotoAsync();
+
+                image.Source = ImageSource.FromFile(file.Path);
+            }
+            else
+            {
+                await DisplayAlert("Permissions Denied", "Unable to take photos.", "OK");
+                //On iOS you may want to send your user to the settings screen.
+                //CrossPermissions.Current.OpenAppSettings();
+            }
+        }
+
+        private async void FaceButton_Clicked(object sender, EventArgs e)
+        {
+            FaceButtno.IsEnabled = false;
+
             var client = new FaceService();
             var faces = await client.GetLocalEmotionAsync(file.Path);
 
@@ -68,18 +111,26 @@ namespace XFCognitiveServices
             }
 
             await DisplayAlert("Face", sb.ToString(), "OK");
+
+            FaceButtno.IsEnabled = true;
         }
 
-        async void AnalyzeButton_Clicked(object sender, EventArgs e)
+        private async void AnalyzeButton_Clicked(object sender, EventArgs e)
         {
+            AnalyzeButton.IsEnabled = false;
+
             var client = new ImageAnalysisService();
             var caption = await client.AnalyzeLocalImageAsync(file.Path);
 
             await DisplayAlert("Image Analysis", caption, "OK");
+
+            AnalyzeButton.IsEnabled = true;
         }
 
-        async void OcrButton_Clicked(object sender, EventArgs e)
+        private async void OcrButton_Clicked(object sender, EventArgs e)
         {
+            OcrButton.IsEnabled = false;
+
             var client = new OcrService();
             var regions = await client.ExtractLocalTextAsync(file.Path);
 
@@ -91,6 +142,8 @@ namespace XFCognitiveServices
             }
 
             await DisplayAlert("OCR", sb.ToString(), "OK");
+
+            OcrButton.IsEnabled = true;
         }
     }
 }
