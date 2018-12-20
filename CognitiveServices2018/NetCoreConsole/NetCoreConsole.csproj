@@ -8,4 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CognitiveServices.Core\CognitiveServices.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
 </Project>
