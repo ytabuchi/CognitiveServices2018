@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using CognitiveServices.Core;
+using Newtonsoft.Json;
 
 namespace NetCoreConsole
 {
@@ -13,7 +15,7 @@ namespace NetCoreConsole
             var colluptUrl = "xxxxxxxx";
 
 
-            //Console.WriteLine("Cognitive Services - Face - DetectFace");
+            //Console.WriteLine("Cognitive Services - Vision - Face - DetectFace");
 
             //var faceClient = new FaceService();
             //var faces = faceClient.GetRemoteEmotionsAsync(faceImage).Result;
@@ -27,17 +29,17 @@ namespace NetCoreConsole
             //Console.WriteLine("");
 
 
-            Console.WriteLine("Cognitive Services - ComputerVision - Image Analysis");
+            //Console.WriteLine("Cognitive Services - Vision - ComputerVision - Image Analysis");
 
-            var analysisClient = new ImageAnalysisService();
-            var caption = analysisClient.AnalyzeRemoteImageAsync(faceImage).Result;
+            //var analysisClient = new ImageAnalysisService();
+            //var caption = analysisClient.AnalyzeRemoteImageAsync(faceImage).Result;
 
-            Console.WriteLine($"Analysis Result:\n" +
-                $"{caption}");
-            Console.WriteLine("");
+            //Console.WriteLine($"Analysis Result:\n" +
+            //    $"{caption}");
+            //Console.WriteLine("");
 
 
-            //Console.WriteLine("Cognitive Services - ComputerVision - OCR");
+            //Console.WriteLine("Cognitive Services - Vision - ComputerVision - OCR");
 
             //var computerVisionClient = new OcrService();
             //var regions = computerVisionClient.ExtractRemoteTextAsync(ocrImage).Result;
@@ -48,6 +50,12 @@ namespace NetCoreConsole
             //    Console.WriteLine($"OCR Result:\n" +
             //        $"{region}");
             //}
+
+            Console.WriteLine("Cognitive Services - Language - Translator Text");
+
+            var translationClient = new TranslatorTextService();
+            Console.WriteLine(translationClient.TranslateText("こんにちは。今日は良い天気です。", TranslatorTextService.ToLanguage.en).Result);
+            Console.WriteLine(translationClient.TranslateText("Good afternoon. Today is good weather.", TranslatorTextService.ToLanguage.ja).Result);
 
 
             Console.ReadLine();
