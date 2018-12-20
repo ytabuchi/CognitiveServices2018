@@ -36,7 +36,7 @@ namespace CognitiveServices.Core
             using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
-                Endpoint = Secrets.FaceEndpoint,
+                Endpoint = Secrets.CognitiveApiEndpoint,
             })
             {
                 try
@@ -73,7 +73,7 @@ namespace CognitiveServices.Core
             using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
-                Endpoint = Secrets.FaceEndpoint,
+                Endpoint = Secrets.CognitiveApiEndpoint,
             })
             {
                 try
@@ -110,7 +110,7 @@ namespace CognitiveServices.Core
             using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
-                Endpoint = Secrets.FaceEndpoint,
+                Endpoint = Secrets.CognitiveApiEndpoint,
             })
             {
                 try

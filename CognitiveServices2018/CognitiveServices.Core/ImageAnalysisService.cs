@@ -38,13 +38,13 @@ namespace CognitiveServices.Core
             using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
-                Endpoint = Secrets.ComputerVisionEndpoint
+                Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
                 try
                 {
                     // API 呼び出し、結果取得
-                    var analysisResult = await computerVisionClient.AnalyzeImageAsync(imageUrl, features, null, "zh");
+                    var analysisResult = await computerVisionClient.AnalyzeImageAsync(imageUrl, features, null, "en");
 
                     return GetCaption(analysisResult);
                 }
@@ -75,7 +75,7 @@ namespace CognitiveServices.Core
             using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
-                Endpoint = Secrets.ComputerVisionEndpoint
+                Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
                 try
