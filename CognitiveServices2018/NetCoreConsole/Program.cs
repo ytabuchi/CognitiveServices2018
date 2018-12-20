@@ -54,8 +54,12 @@ namespace NetCoreConsole
             Console.WriteLine("Cognitive Services - Language - Translator Text");
 
             var translationClient = new TranslatorTextService();
-            Console.WriteLine(translationClient.TranslateText("こんにちは。今日は良い天気です。", TranslatorTextService.ToLanguage.en).Result);
-            Console.WriteLine(translationClient.TranslateText("Good afternoon. Today is good weather.", TranslatorTextService.ToLanguage.ja).Result);
+            var ja = "こんにちは。今日は良い天気です。";
+            var ja2en = translationClient.TranslateTextAsync(ja, TranslatorTextService.ToLanguage.en).Result;
+            var en = "Good afternoon. It is good weather today.";
+            var en2ja = translationClient.TranslateTextAsync(en, TranslatorTextService.ToLanguage.ja).Result;
+            Console.WriteLine($"Source: {ja}, Translated: {ja2en}");
+            Console.WriteLine($"Source: {en}, Translated: {en2ja}");
 
 
             Console.ReadLine();
