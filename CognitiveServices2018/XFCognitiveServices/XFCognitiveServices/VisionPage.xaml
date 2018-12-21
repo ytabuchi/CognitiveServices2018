@@ -18,15 +18,18 @@
             <Image x:Name="image"
                    Aspect="AspectFill"
                    />
-            <Button x:Name="FaceButtno"
-                    Text="Detect Face"
-                    Clicked="FaceButton_Clicked" />
             <Button x:Name="AnalyzeButton"
                     Text="Analyze Image"
+                    IsEnabled="false"
                     Clicked="AnalyzeButton_Clicked" />
             <Button x:Name="OcrButton"
                     Text="OCR Text"
+                    IsEnabled="false"
                     Clicked="OcrButton_Clicked" />
+            <Button x:Name="FaceButton"
+                    Text="Detect Face"
+                    IsEnabled="false"
+                    Clicked="FaceButton_Clicked" />
         </StackLayout>
     </ScrollView>
 </ContentPage>
