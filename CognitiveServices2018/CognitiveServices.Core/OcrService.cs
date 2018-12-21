@@ -37,7 +37,7 @@ namespace CognitiveServices.Core
                     // API 呼び出し、結果取得
                     var ocrResult = await computerVisionClient.RecognizePrintedTextAsync(true, imageUrl, OcrLanguages.Ja);
 
-                    return GetRegionTextAsync(ocrResult);
+                    return GetAllText(ocrResult);
                 }
                 catch (ComputerVisionErrorException e)
                 {
@@ -76,7 +76,7 @@ namespace CognitiveServices.Core
                         // API 呼び出し、結果取得
                         var ocrResult = await computerVisionClient.RecognizePrintedTextInStreamAsync(true, imageStream, OcrLanguages.Ja);
 
-                        return GetRegionTextAsync(ocrResult);
+                        return GetAllText(ocrResult);
                     }
                 }
                 catch (ComputerVisionErrorException e)
@@ -111,7 +111,7 @@ namespace CognitiveServices.Core
                     // API 呼び出し、結果取得
                     var ocrResult = await computerVisionClient.RecognizePrintedTextInStreamAsync(true, imageStream, OcrLanguages.Ja);
 
-                    return GetRegionTextAsync(ocrResult);
+                    return GetAllText(ocrResult);
                 }
                 catch (ComputerVisionErrorException e)
                 {
@@ -126,7 +126,7 @@ namespace CognitiveServices.Core
             }
         }
 
-        private static List<string> GetRegionTextAsync(OcrResult result)
+        private static List<string> GetAllText(OcrResult result)
         {
             if (result.Regions.Count == 0)
                 return new List<string> { "Could not recognized." };

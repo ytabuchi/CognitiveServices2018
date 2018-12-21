@@ -19,7 +19,7 @@ namespace CognitiveServices.Core
         {
             FaceAttributeType.Age,
             FaceAttributeType.Gender,
-            FaceAttributeType.Emotion
+            FaceAttributeType.Emotion,
         };
 
         /// <summary>
