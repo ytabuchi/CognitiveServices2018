@@ -166,28 +166,6 @@ namespace XFCognitiveServices
         {
             DisableCognitiveButtons();
 
-            var client = new FaceService();
-            var faces = await client.GetLocalEmotionAsync(file.Path);
-
-            if (faces == null)
-                await DisplayAlert("Error", "Can not detect", "OK");
-
-            var sb = new StringBuilder();
-            sb.Append($"Detected: {faces.Count}\n\n");
-            foreach (var face in faces)
-            {
-                sb.Append($"Emotion Rsult:\nAge:{face.Age}\nGender:{face.Gender}\nHappiness:{face.Happiness}%\n");
-            }
-
-            await DisplayAlert("Face", sb.ToString(), "OK");
-
-            EnableCognitiveButtons();
-        }
-
-        private async void FaceButton_Clicked(object sender, EventArgs e)
-        {
-            DisableCognitiveButtons();
-
             var faceClient = new FaceService();
             var faces = await faceClient.GetLocalEmotionAsync(file.Path);
 
