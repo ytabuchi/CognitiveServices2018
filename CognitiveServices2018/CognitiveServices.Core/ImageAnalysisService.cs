@@ -44,7 +44,7 @@ namespace CognitiveServices.Core
                 try
                 {
                     // API 呼び出し、結果取得
-                    var analysisResult = await computerVisionClient.AnalyzeImageAsync(imageUrl, features, null, "en");
+                    var analysisResult = await computerVisionClient.AnalyzeImageAsync(imageUrl, features, null, "ja");
 
                     return GetCaption(analysisResult);
                 }
@@ -83,7 +83,7 @@ namespace CognitiveServices.Core
                     using (var imageStream = File.OpenRead(imagePath))
                     {
                         // API 呼び出し、結果取得
-                        var analysisResult = await computerVisionClient.AnalyzeImageInStreamAsync(imageStream, features);
+                        var analysisResult = await computerVisionClient.AnalyzeImageInStreamAsync(imageStream, features, null, "ja");
 
                         return GetCaption(analysisResult);
                     }
@@ -118,7 +118,7 @@ namespace CognitiveServices.Core
                 try
                 {
                     // API 呼び出し、結果取得
-                    var analysisResult = await computerVisionClient.AnalyzeImageInStreamAsync(imageStream, features);
+                    var analysisResult = await computerVisionClient.AnalyzeImageInStreamAsync(imageStream, features, null, "ja");
 
                     return GetCaption(analysisResult);
                 }

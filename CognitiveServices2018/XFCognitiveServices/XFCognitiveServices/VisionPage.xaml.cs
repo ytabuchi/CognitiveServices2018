@@ -24,8 +24,9 @@ namespace XFCognitiveServices
 
         private void EnableCognitiveButtons()
         {
-            return CrossMedia.Current.IsTakePhotoSupported &&
-                CrossMedia.Current.IsPickPhotoSupported;
+            AnalyzeButton.IsEnabled = true;
+            OcrButton.IsEnabled = true;
+            FaceButton.IsEnabled = true;
         }
 
         private void DisableCognitiveButtons()
@@ -87,6 +88,8 @@ namespace XFCognitiveServices
                     return;
 
                 image.Source = ImageSource.FromFile(file.Path);
+
+                EnableCognitiveButtons();
             }
             else
             {
@@ -117,6 +120,8 @@ namespace XFCognitiveServices
                     return;
 
                 image.Source = ImageSource.FromFile(file.Path);
+
+                EnableCognitiveButtons();
             }
             else
             {
@@ -126,9 +131,40 @@ namespace XFCognitiveServices
             }
         }
 
+        private async void AnalyzeButton_Clicked(object sender, EventArgs e)
+        {
+            DisableCognitiveButtons();
+
+            var analysisClient = new ImageAnalysisService();
+            var caption = await analysisClient.AnalyzeLocalImageAsync(file.Path);
+
+            await DisplayAlert("Image Analysis", caption, "OK");
+
+            EnableCognitiveButtons();
+        }
+
+        private async void OcrButton_Clicked(object sender, EventArgs e)
+        {
+            DisableCognitiveButtons();
+
+            var ocrClient = new OcrService();
+            var regions = await ocrClient.ExtractLocalTextAsync(file.Path);
+
+            var sb = new StringBuilder();
+            sb.Append($"Extracted Regions: {regions.Count}\n\n");
+            foreach (var region in regions)
+            {
+                sb.Append($"OCR Result:\n{region}\n");
+            }
+
+            await DisplayAlert("OCR", sb.ToString(), "OK");
+
+            EnableCognitiveButtons();
+        }
+
         private async void FaceButton_Clicked(object sender, EventArgs e)
         {
-            FaceButtno.IsEnabled = false;
+            DisableCognitiveButtons();
 
             var client = new FaceService();
             var faces = await client.GetLocalEmotionAsync(file.Path);
@@ -145,38 +181,7 @@ namespace XFCognitiveServices
 
             await DisplayAlert("Face", sb.ToString(), "OK");
 
-            FaceButtno.IsEnabled = true;
-        }
-
-        private async void AnalyzeButton_Clicked(object sender, EventArgs e)
-        {
-            AnalyzeButton.IsEnabled = false;
-
-            var analysisClient = new ImageAnalysisService();
-            var caption = await analysisClient.AnalyzeLocalImageAsync(file.Path);
-
-            await DisplayAlert("Image Analysis", caption, "OK");
-
-            AnalyzeButton.IsEnabled = true;
-        }
-
-        private async void OcrButton_Clicked(object sender, EventArgs e)
-        {
-            OcrButton.IsEnabled = false;
-
-            var ocrClient = new OcrService();
-            var regions = await ocrClient.ExtractLocalTextAsync(file.Path);
-
-            var sb = new StringBuilder();
-            sb.Append($"Extracted Regions: {regions.Count}\n\n");
-            foreach (var region in regions)
-            {
-                sb.Append($"OCR Result:\n{region}\n");
-            }
-
-            await DisplayAlert("OCR", sb.ToString(), "OK");
-
-            OcrButton.IsEnabled = true;
+            EnableCognitiveButtons();
         }
 
         private async void FaceButton_Clicked(object sender, EventArgs e)
