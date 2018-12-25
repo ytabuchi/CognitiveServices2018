@@ -16,44 +16,44 @@ namespace NetCoreConsole
             var macLocalImagePath = "/Users/ytabuchi/Desktop/rose.jpg";
             var webImageUrl = "https://images.unsplash.com/photo-1512546148165-e50d714a565a?w=600&q=80";
 
-            Console.WriteLine("Cognitive Services - Vision - Face - DetectFace");
+            //Console.WriteLine("Cognitive Services - Vision - Face - DetectFace");
 
-            var faceClient = new FaceService();
-            var faces = faceClient.GetRemoteEmotionsAsync(faceImage).Result;
+            //var faceClient = new FaceService();
+            //var faces = faceClient.GetRemoteEmotionsAsync(faceImage).Result;
 
-            Console.WriteLine($"Detected: {faces.Count} Person.");
-            foreach (var face in faces)
-            {
-                Console.WriteLine($"Emotion Result:\n" +
-                    $"Age:{face.Age} Gender:{face.Gender} Happiness:{face.Happiness}%");
-            }
-            Console.WriteLine("");
-
-
-
-            Console.WriteLine("Cognitive Services - Vision - ComputerVision - Image Analysis");
-
-            var analysisClient = new ImageAnalysisService();
-            var caption = analysisClient.AnalyzeRemoteImageAsync(meetupImage).Result;
-
-            Console.WriteLine($"Analysis Result:\n" +
-                $"{caption}");
-            Console.WriteLine("");
+            //Console.WriteLine($"Detected: {faces.Count} Person.");
+            //foreach (var face in faces)
+            //{
+            //    Console.WriteLine($"Emotion Result:\n" +
+            //        $"Age:{face.Age} Gender:{face.Gender} Happiness:{face.Happiness}%");
+            //}
+            //Console.WriteLine("");
 
 
 
-            Console.WriteLine("Cognitive Services - Vision - ComputerVision - OCR");
+            //Console.WriteLine("Cognitive Services - Vision - ComputerVision - Image Analysis");
 
-            var computerVisionClient = new OcrService();
-            var regions = computerVisionClient.ExtractRemoteTextAsync(ocrImage).Result;
+            //var analysisClient = new ImageAnalysisService();
+            //var caption = analysisClient.AnalyzeRemoteImageAsync(meetupImage).Result;
 
-            Console.WriteLine($"Detedted: {regions.Count} Regions");
-            foreach (var region in regions)
-            {
-                Console.WriteLine($"OCR Result:\n" +
-                    $"{region}");
-            }
-            Console.WriteLine("");
+            //Console.WriteLine($"Analysis Result:\n" +
+            //    $"{caption}");
+            //Console.WriteLine("");
+
+
+
+            //Console.WriteLine("Cognitive Services - Vision - ComputerVision - OCR");
+
+            //var computerVisionClient = new OcrService();
+            //var regions = computerVisionClient.ExtractRemoteTextAsync(ocrImage).Result;
+
+            //Console.WriteLine($"Detedted: {regions.Count} Regions");
+            //foreach (var region in regions)
+            //{
+            //    Console.WriteLine($"OCR Result:\n" +
+            //        $"{region}");
+            //}
+            //Console.WriteLine("");
 
 
 

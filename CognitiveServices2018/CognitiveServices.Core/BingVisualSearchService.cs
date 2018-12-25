@@ -24,7 +24,8 @@ namespace CognitiveServices.Core
             //{
             //    Endpoint = Secrets.BingSearchEndPoint
             //};
-            var client = new VisualSearchClient(new ApiKeyServiceClientCredentials(Secrets.BingVisualSearchApiKey));
+
+            var client = new VisualSearchClient(new Microsoft.Azure.CognitiveServices.Search.VisualSearch.ApiKeyServiceClientCredentials(Secrets.BingVisualSearchApiKey));
 
             // The image can be specified via URL, in the ImageInfo object
             var imageInfo = new ImageInfo(url: imageUrl);
@@ -83,7 +84,8 @@ namespace CognitiveServices.Core
             if (!File.Exists(imagePath))
                 return $"Unable to open or read ImagePath: {imagePath}";
 
-            using (var client = new VisualSearchClient(new ApiKeyServiceClientCredentials(Secrets.BingVisualSearchApiKey)))
+
+            using (var client = new VisualSearchClient(new Microsoft.Azure.CognitiveServices.Search.VisualSearch.ApiKeyServiceClientCredentials(Secrets.BingVisualSearchApiKey)))
             {
                 try
                 {

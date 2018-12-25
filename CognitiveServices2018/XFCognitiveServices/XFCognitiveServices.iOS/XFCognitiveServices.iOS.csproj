@@ -160,5 +160,13 @@
       <Name>XFCognitiveServices</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\vision%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\language%402x.png" />
+    <BundleResource Include="Resources\language%403x.png" />
+    <BundleResource Include="Resources\vision%403x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

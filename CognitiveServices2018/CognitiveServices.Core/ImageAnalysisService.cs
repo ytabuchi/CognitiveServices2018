@@ -35,7 +35,7 @@ namespace CognitiveServices.Core
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
                 return $"Invalid image URL: {imageUrl}";
 
-            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint
@@ -72,7 +72,7 @@ namespace CognitiveServices.Core
                 return $"Unable to open or read ImagePath: {imagePath}";
 
             // ComputerVisionClient の準備
-            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint
@@ -109,7 +109,7 @@ namespace CognitiveServices.Core
         public async Task<string> AnalyzeLocalImageAsync(Stream imageStream)
         {
             // ComputerVisionClient の準備
-            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.ComputerVisionEndpoint
