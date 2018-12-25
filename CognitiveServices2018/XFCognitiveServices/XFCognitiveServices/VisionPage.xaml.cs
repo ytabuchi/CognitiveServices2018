@@ -22,22 +22,27 @@ namespace XFCognitiveServices
             InitializeComponent();
         }
 
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (CheckFeaturesAvalable())
-                isPermissionGranted = await CheckPermissionGranted();
-            else
-                await DisplayAlert("Features", "This phone does not support this app.", "OK");
-        }
-
-        private bool CheckFeaturesAvalable()
+        private void EnableCognitiveButtons()
         {
             return CrossMedia.Current.IsTakePhotoSupported &&
                 CrossMedia.Current.IsPickPhotoSupported;
         }
 
+        private void DisableCognitiveButtons()
+        {
+            AnalyzeButton.IsEnabled = false;
+            OcrButton.IsEnabled = false;
+            FaceButton.IsEnabled = false;
+        }
+
+        private bool CheckFeaturesAvalable() => 
+            CrossMedia.Current.IsTakePhotoSupported && 
+            CrossMedia.Current.IsPickPhotoSupported;
+
+        /// <summary>
+        /// パーミッションを確認
+        /// </summary>
+        /// <returns>パーミッションが許可されているか？</returns>
         private async Task<bool> CheckPermissionGranted()
         {
             var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
@@ -58,6 +63,17 @@ namespace XFCognitiveServices
 
         private async void TakePictureButton_Clicked(object sender, EventArgs e)
         {
+            // 機能のチェック
+            if (!CheckFeaturesAvalable())
+            {
+                await DisplayAlert("Features", "This phone does not support this app.", "OK");
+                return;
+            }
+
+            // パーミッションをチェックし、許可されていなければ許可してもらう。
+            if (!isPermissionGranted)
+                isPermissionGranted = await CheckPermissionGranted();
+
             if (isPermissionGranted)
             {
                 file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
@@ -66,6 +82,9 @@ namespace XFCognitiveServices
                     Name = "test.jpg",
                     PhotoSize = PhotoSize.Medium
                 });
+
+                if (file == null)
+                    return;
 
                 image.Source = ImageSource.FromFile(file.Path);
             }
@@ -79,15 +98,29 @@ namespace XFCognitiveServices
 
         private async void OpenPicureButton_Clicked(object sender, System.EventArgs e)
         {
+            // 機能のチェック
+            if (!CheckFeaturesAvalable())
+            {
+                await DisplayAlert("Features", "This phone does not support this app.", "OK");
+                return;
+            }
+
+            // パーミッションをチェックし、許可されていなければ許可してもらう。
+            if (!isPermissionGranted)
+                isPermissionGranted = await CheckPermissionGranted();
+
             if (isPermissionGranted)
             {
                 file = await CrossMedia.Current.PickPhotoAsync();
+
+                if (file == null)
+                    return;
 
                 image.Source = ImageSource.FromFile(file.Path);
             }
             else
             {
-                await DisplayAlert("Permissions Denied", "Unable to take photos.", "OK");
+                await DisplayAlert("Permissions Denied", "Unable to open photos.", "OK");
                 //On iOS you may want to send your user to the settings screen.
                 //CrossPermissions.Current.OpenAppSettings();
             }
@@ -119,8 +152,8 @@ namespace XFCognitiveServices
         {
             AnalyzeButton.IsEnabled = false;
 
-            var client = new ImageAnalysisService();
-            var caption = await client.AnalyzeLocalImageAsync(file.Path);
+            var analysisClient = new ImageAnalysisService();
+            var caption = await analysisClient.AnalyzeLocalImageAsync(file.Path);
 
             await DisplayAlert("Image Analysis", caption, "OK");
 
@@ -131,8 +164,8 @@ namespace XFCognitiveServices
         {
             OcrButton.IsEnabled = false;
 
-            var client = new OcrService();
-            var regions = await client.ExtractLocalTextAsync(file.Path);
+            var ocrClient = new OcrService();
+            var regions = await ocrClient.ExtractLocalTextAsync(file.Path);
 
             var sb = new StringBuilder();
             sb.Append($"Extracted Regions: {regions.Count}\n\n");
@@ -144,6 +177,28 @@ namespace XFCognitiveServices
             await DisplayAlert("OCR", sb.ToString(), "OK");
 
             OcrButton.IsEnabled = true;
+        }
+
+        private async void FaceButton_Clicked(object sender, EventArgs e)
+        {
+            DisableCognitiveButtons();
+
+            var faceClient = new FaceService();
+            var faces = await faceClient.GetLocalEmotionAsync(file.Path);
+
+            if (faces == null)
+                await DisplayAlert("Error", "Can not detect", "OK");
+
+            var sb = new StringBuilder();
+            sb.Append($"Detected: {faces.Count}\n\n");
+            foreach (var face in faces)
+            {
+                sb.Append($"Emotion Rsult:\nAge:{face.Age}\nGender:{face.Gender}\nHappiness:{face.Happiness}%\n");
+            }
+
+            await DisplayAlert("Face", sb.ToString(), "OK");
+
+            EnableCognitiveButtons();
         }
     }
 }

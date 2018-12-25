@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XFCognitiveServices"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
              x:Class="XFCognitiveServices.LanguagePage"
              Title="Cognitive Services - Language">
+    <ScrollView>
+        <StackLayout Padding="10">
+            <Editor x:Name="SourceText"
+                    AutoSize="TextChanges"
+                    TextChanged="Editor_TextChanged"
+                    Text="こんにちは。今日はとても良い天気ですね！"/>
+            <Label x:Name="TranslatedText" 
+                   MaxLines="7"
+                   FontSize="Medium"
+                   Text="Translated text will be in here."/>
+            <Button x:Name="TranslateButton"
+                    Text="Translate"
+                    Clicked="TranslateButton_Clicked"/>
+            <Button x:Name="AnalyzeTextButton"
+                    Text="Analyze Text"
+                    Clicked="AnalyzeTextButton_Clicked"/>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

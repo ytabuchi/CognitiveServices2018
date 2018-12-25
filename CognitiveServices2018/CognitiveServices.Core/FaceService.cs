@@ -33,7 +33,7 @@ namespace CognitiveServices.Core
                 return new List<FaceEmotion>();
 
             // FaceClient の準備
-            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+            using (var faceClient = new FaceClient(new Microsoft.Azure.CognitiveServices.Vision.Face.ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint,
@@ -70,7 +70,7 @@ namespace CognitiveServices.Core
                 return null;
 
             // FaceClient の準備
-            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+            using (var faceClient = new FaceClient(new Microsoft.Azure.CognitiveServices.Vision.Face.ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint,
@@ -107,7 +107,7 @@ namespace CognitiveServices.Core
         public async Task<List<FaceEmotion>> GetLocalEmotionAsync(Stream imageStream)
         {
             // FaceClient の準備
-            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+            using (var faceClient = new FaceClient(new Microsoft.Azure.CognitiveServices.Vision.Face.ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint,

@@ -11,7 +11,7 @@ namespace XFCognitiveServices
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new VisionPage());
+            MainPage = new MainTabPage();
         }
 
         protected override void OnStart()
