@@ -24,7 +24,7 @@ namespace CognitiveServices.Core
         public async Task<double> AnalyzeSentimentAsync(string text)
         {
             //クライアント作成
-            using (var client = new TextAnalyticsClient(new TextAAnalyticsApiKeyServiceClientCredentials(),
+            using (var client = new TextAnalyticsClient(new TextAnalyticsApiKeyServiceClientCredentials(),
                 new System.Net.Http.DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint
@@ -83,7 +83,7 @@ namespace CognitiveServices.Core
         }
     }
 
-    class TextAAnalyticsApiKeyServiceClientCredentials : ServiceClientCredentials
+    class TextAnalyticsApiKeyServiceClientCredentials : ServiceClientCredentials
     {
         public override Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
