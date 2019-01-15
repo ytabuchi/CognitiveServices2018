@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
@@ -25,11 +26,11 @@ namespace CognitiveServices.Core
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
                 return new List<string> { $"Invalid image URL: {imageUrl}" };
 
-            // ComputerVisionClient の準備
-            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            // クライアント作成
+            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+                new DelegatingHandler[] { })
             {
-                Endpoint = Secrets.ComputerVisionEndpoint
+                Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
                 try
@@ -62,11 +63,11 @@ namespace CognitiveServices.Core
             if (!File.Exists(imagePath))
                 return new List<string> { $"Unable to open or read ImagePath: {imagePath}" };
 
-            // ComputerVisionClient の準備
-            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            // クライアント作成
+            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+                new DelegatingHandler[] { })
             {
-                Endpoint = Secrets.ComputerVisionEndpoint
+                Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
                 try
@@ -100,10 +101,10 @@ namespace CognitiveServices.Core
         public async Task<List<string>> ExtractLocalTextAsync(Stream imageStream)
         {
             // ComputerVisionClient の準備
-            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+                new DelegatingHandler[] { })
             {
-                Endpoint = Secrets.ComputerVisionEndpoint
+                Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
                 try

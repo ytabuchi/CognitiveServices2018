@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.Face;
 using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
@@ -32,9 +33,9 @@ namespace CognitiveServices.Core
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
                 return new List<FaceEmotion>();
 
-            // FaceClient の準備
-            using (var faceClient = new FaceClient(new Microsoft.Azure.CognitiveServices.Vision.Face.ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            // クライアント作成
+            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+                new DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint,
             })
@@ -70,8 +71,8 @@ namespace CognitiveServices.Core
                 return null;
 
             // FaceClient の準備
-            using (var faceClient = new FaceClient(new Microsoft.Azure.CognitiveServices.Vision.Face.ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+                new DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint,
             })
@@ -107,8 +108,8 @@ namespace CognitiveServices.Core
         public async Task<List<FaceEmotion>> GetLocalEmotionAsync(Stream imageStream)
         {
             // FaceClient の準備
-            using (var faceClient = new FaceClient(new Microsoft.Azure.CognitiveServices.Vision.Face.ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            using (var faceClient = new FaceClient(new ApiKeyServiceClientCredentials(Secrets.FaceApiKey),
+                new DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint,
             })

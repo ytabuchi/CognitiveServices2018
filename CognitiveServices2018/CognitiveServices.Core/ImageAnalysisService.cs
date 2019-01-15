@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,8 +36,9 @@ namespace CognitiveServices.Core
             if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
                 return $"Invalid image URL: {imageUrl}";
 
-            using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
-                new System.Net.Http.DelegatingHandler[] { })
+            // クライアント作成
+            using (var computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
+                new DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint
             })
@@ -112,7 +114,7 @@ namespace CognitiveServices.Core
             using (var computerVisionClient = new ComputerVisionClient(new Microsoft.Azure.CognitiveServices.Vision.ComputerVision.ApiKeyServiceClientCredentials(Secrets.ComputerVisionApiKey),
                 new System.Net.Http.DelegatingHandler[] { })
             {
-                Endpoint = Secrets.ComputerVisionEndpoint
+                Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
                 try

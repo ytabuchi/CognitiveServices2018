@@ -23,18 +23,20 @@ namespace CognitiveServices.Core
         /// <param name="text">Text.</param>
         public async Task<double> AnalyzeSentimentAsync(string text)
         {
-            //クライアント作成
+            // クライアント作成
             using (var client = new TextAnalyticsClient(new TextAnalyticsApiKeyServiceClientCredentials(),
-                new System.Net.Http.DelegatingHandler[] { })
+                new DelegatingHandler[] { })
             {
                 Endpoint = Secrets.CognitiveApiEndpoint
             })
             {
+                // 英語かどうかチェック
                 if (!await IsEnglishText(client, text))
                     return 0;
 
                 try
                 {
+                    // API 呼び出し、結果取得
                     var result = await client.SentimentAsync(new MultiLanguageBatchInput(
                         new List<MultiLanguageInput>
                     {
@@ -55,7 +57,7 @@ namespace CognitiveServices.Core
         }
 
         /// <summary>
-        /// 各メソッドで英語を引数で受け取ることを想定しているので、英語と認識したかどうか
+        /// 各メソッドで英語を引数で受け取ることを想定しているので、英語と認識したかどうかをチェックするメソッドです。
         /// </summary>
         /// <returns>英語の場合はTrue</returns>
         /// <param name="client">TextAnalyticsClient.</param>
