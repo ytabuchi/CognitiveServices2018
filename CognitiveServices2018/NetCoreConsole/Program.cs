@@ -93,10 +93,17 @@ namespace NetCoreConsole
             Console.WriteLine("Cognitive Services - Bing Search - Visual Search");
 
             var visualSearchClient = new BingVisualSearchService();
-            //var res1 = visualSearchClient.SearchRemoteImageAsync(webImageUrl).Result;
+            var res1 = visualSearchClient.SearchRemoteImageAsync(webImageUrl).Result;
             var res2 = visualSearchClient.SearchLocalImageAsync(macLocalImagePath).Result;
 
-            Console.WriteLine($"Found Images:");
+            Console.WriteLine($"Remote Image Search - Found Images:");
+            foreach (var i in res1)
+            {
+                Console.WriteLine($"Image URL:{i.ImageUrl}\n" +
+                    $"Product: {i.Name ?? "None"}, {i.Price} {i.PriceCurrency}");
+            }
+
+            Console.WriteLine($"Local Image Search - Found Images:");
             foreach (var i in res2)
             {
                 Console.WriteLine($"Image URL:{i.ImageUrl}\n" +
