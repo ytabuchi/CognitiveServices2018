@@ -13,6 +13,7 @@
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="AiForms.Layouts" Version="1.1.0" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.4.859" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CognitiveServices.Core\CognitiveServices.Core.csproj" />
