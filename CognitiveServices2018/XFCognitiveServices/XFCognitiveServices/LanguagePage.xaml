@@ -7,7 +7,7 @@
              x:Class="XFCognitiveServices.LanguagePage"
              Title="Cognitive Services - Language">
     <ScrollView>
-        <StackLayout Padding="10">
+        <StackLayout Padding="5">
             <Editor x:Name="SourceText"
                     AutoSize="TextChanges"
                     TextChanged="Editor_TextChanged"

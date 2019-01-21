@@ -13,8 +13,8 @@ namespace NetCoreConsole
             var meetupImage = "https://pbs.twimg.com/media/DsmYWMFU8AEn0D1.jpg";
             var ocrImage = "https://pbs.twimg.com/media/DtdfaSeVsAAeRis.jpg";
             var colluptUrl = "xxxxxxxx";
-            var macLocalImagePath = "/Users/ytabuchi/Desktop/shirts.jpg";
-            var webImageUrl = "https://images.unsplash.com/photo-1512546148165-e50d714a565a?w=600&q=80";
+            var macLocalImagePath = "/Users/ytabuchi/Desktop/shirts2.jpg"; //"/Users/ytabuchi/Desktop/IMG_20190121_094604.jpg";
+            var webImageUrl = "https://content.backcountry.com/images/items/900/FAH/FAH002Z/STEHEPD.jpg"; //"https://images.unsplash.com/photo-1512546148165-e50d714a565a?w=600&q=80";
 
             #region UnuseNow
 
@@ -96,22 +96,27 @@ namespace NetCoreConsole
             var res1 = visualSearchClient.SearchRemoteImageAsync(webImageUrl).Result;
             var res2 = visualSearchClient.SearchLocalImageAsync(macLocalImagePath).Result;
 
-            Console.WriteLine($"Remote Image Search - Found Images:");
-            foreach (var i in res1)
+            if (res1 != null)
             {
-                Console.WriteLine($"Image URL:{i.ImageUrl}\n" +
-                    $"Product: {i.Name ?? "None"}, {i.Price} {i.PriceCurrency}");
+                Console.WriteLine($"Remote Image Search - Found Images:\n");
+                foreach (var i in res1)
+                {
+                    Console.WriteLine($"Image URL:{i.ImageUrl}\n" +
+                        $"Product: {i.Name ?? "None"}, {i.Price} {i.PriceCurrency}");
+                }
+                Console.WriteLine("");
             }
 
-            Console.WriteLine($"Local Image Search - Found Images:");
-            foreach (var i in res2)
+            if (res2 != null)
             {
-                Console.WriteLine($"Image URL:{i.ImageUrl}\n" +
-                	$"Product: {i.Name ?? "None"}, {i.Price} {i.PriceCurrency}");
+                Console.WriteLine($"Local Image Search - Found Images:\n");
+                foreach (var i in res2)
+                {
+                    Console.WriteLine($"Image URL:{i.ImageUrl}\n" +
+                        $"Product: {i.Name ?? "None"}, {i.Price} {i.PriceCurrency}");
+                }
+                Console.WriteLine("");
             }
-
-            Console.WriteLine("");
-
 
             Console.ReadLine();
         }

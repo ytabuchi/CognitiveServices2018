@@ -36,36 +36,10 @@ namespace XFCognitiveServices
             FaceButton.IsEnabled = false;
         }
 
-        private bool CheckFeaturesAvalable() => 
-            CrossMedia.Current.IsTakePhotoSupported && 
-            CrossMedia.Current.IsPickPhotoSupported;
-
-        /// <summary>
-        /// パーミッションを確認
-        /// </summary>
-        /// <returns>パーミッションが許可されているか？</returns>
-        private async Task<bool> CheckPermissionGranted()
-        {
-            var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
-            var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-
-            if (cameraStatus != PermissionStatus.Granted || storageStatus != PermissionStatus.Granted)
-            {
-                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera, Permission.Storage });
-                cameraStatus = results[Permission.Camera];
-                storageStatus = results[Permission.Storage];
-            }
-
-            if (cameraStatus == PermissionStatus.Granted && storageStatus == PermissionStatus.Granted)
-                return true;
-            else
-                return false;
-        }
-
         private async void TakePictureButton_Clicked(object sender, EventArgs e)
         {
             // 機能のチェック
-            if (!CheckFeaturesAvalable())
+            if (!PermissionService.CheckFeaturesAvalable())
             {
                 await DisplayAlert("Features", "This phone does not support this app.", "OK");
                 return;
@@ -73,7 +47,7 @@ namespace XFCognitiveServices
 
             // パーミッションをチェックし、許可されていなければ許可してもらう。
             if (!isPermissionGranted)
-                isPermissionGranted = await CheckPermissionGranted();
+                isPermissionGranted = await PermissionService.CheckPermissionGranted();
 
             if (isPermissionGranted)
             {
@@ -102,7 +76,7 @@ namespace XFCognitiveServices
         private async void OpenPicureButton_Clicked(object sender, System.EventArgs e)
         {
             // 機能のチェック
-            if (!CheckFeaturesAvalable())
+            if (!PermissionService.CheckFeaturesAvalable())
             {
                 await DisplayAlert("Features", "This phone does not support this app.", "OK");
                 return;
@@ -110,7 +84,7 @@ namespace XFCognitiveServices
 
             // パーミッションをチェックし、許可されていなければ許可してもらう。
             if (!isPermissionGranted)
-                isPermissionGranted = await CheckPermissionGranted();
+                isPermissionGranted = await PermissionService.CheckPermissionGranted();
 
             if (isPermissionGranted)
             {

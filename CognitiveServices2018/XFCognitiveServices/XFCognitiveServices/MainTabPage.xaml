@@ -16,5 +16,7 @@
                           Icon="vision.png"/>
         <local:LanguagePage Title="Language"
                             Icon="language.png"/>
+        <local:SearchPage Title="Search"
+                            Icon="search.png"/>
   </TabbedPage.Children>
 </TabbedPage>

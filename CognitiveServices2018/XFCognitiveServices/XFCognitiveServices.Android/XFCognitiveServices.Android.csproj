@@ -91,6 +91,7 @@
     <AndroidResource Include="Resources\xml\file_paths.xml" />
     <AndroidResource Include="Resources\drawable\language.png" />
     <AndroidResource Include="Resources\drawable\vision.png" />
+    <AndroidResource Include="Resources\drawable\search.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

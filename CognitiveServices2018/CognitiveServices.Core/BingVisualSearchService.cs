@@ -56,15 +56,17 @@ namespace CognitiveServices.Core
                         Debug.WriteLine($"Uploaded image insights token: {visualSearchResults.Image.ImageInsightsToken}");
                     }
 
-                    // "ProductVisualSearch" が有る場合と無い場合で処理を分岐
-                    if (IsIncludeProductVisualSearch(visualSearchResults))
+                    // "ProductVisualSearch" または "VisualSearch" が有る場合と無い場合で処理を分岐
+                    if (IsIncluding(visualSearchResults, "ProductVisualSearch"))
                     {
                         _images = GetOfferedProducts(visualSearchResults);
                     }
-                    else
+                    else if (IsIncluding(visualSearchResults, "VisualSearch"))
                     {
                         _images = GetSimilarImages(visualSearchResults);
                     }
+                    else
+                        return null;
 
                     return _images;
 
@@ -109,15 +111,17 @@ namespace CognitiveServices.Core
                             Debug.WriteLine($"Uploaded image insights token: {visualSearchResults.Image.ImageInsightsToken}");
                         }
 
-                        // "ProductVisualSearch" が有る場合と無い場合で処理を分岐
-                        if (IsIncludeProductVisualSearch(visualSearchResults))
+                        // "ProductVisualSearch" または "VisualSearch" が有る場合と無い場合で処理を分岐
+                        if (IsIncluding(visualSearchResults, "ProductVisualSearch"))
                         {
                             _images = GetOfferedProducts(visualSearchResults);
                         }
-                        else
+                        else if (IsIncluding(visualSearchResults, "VisualSearch"))
                         {
                             _images = GetSimilarImages(visualSearchResults);
                         }
+                        else
+                            return null;
 
                         return _images;
                     }
@@ -186,10 +190,10 @@ namespace CognitiveServices.Core
             return images;
         }
 
-        private bool IsIncludeProductVisualSearch(ImageKnowledge visualSearchResults)
+        private bool IsIncluding(ImageKnowledge visualSearchResults, string parameter)
         {
             return visualSearchResults.Tags.FirstOrDefault().Actions
-                .Any(x => x.ActionType.Contains("ProductVisualSearch"));
+                .Any(x => x.ActionType.Contains(parameter));
         }
     }
 
